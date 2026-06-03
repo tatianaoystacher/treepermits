@@ -146,8 +146,9 @@ def grab(label_re, lines):
     return candidates[0]
 
 def parse_decision(text, url):
-    # Normalize: drop any HTML/meta noise, markdown bold, nbsp; collapse runs.
-    t = text.replace("\u00a0", " ")
+    import html as _html
+    # Normalize: decode entities, drop HTML/meta noise, markdown bold, nbsp.
+    t = _html.unescape(text).replace("\u00a0", " ")
     # Remove whole meta/link tags and any other HTML tag entirely.
     t = re.sub(r'<meta[^>]*>', ' ', t, flags=re.I)
     t = re.sub(r'<[^>]+>', ' ', t)          # strip every remaining tag
@@ -159,17 +160,21 @@ def parse_decision(text, url):
         m = re.search(pat, flat, re.I)
         return m.group(1).strip() if m else default
 
-    # Address from the Location label, bounded so it can't swallow later fields.
-    address = find(r'Location:\s*(.+?)\s+(?:General Description|Reason For|Tree\(?s?\)?|Number of|Application|Appeals|Date Issued|This is|$)')
-    # Defensive: keep only the first clean segment (addresses are short).
-    if address:
-        address = re.split(r'\s{2,}|["<>]', address)[0].strip()
+    # Address: derive from the URL slug, which is clean and unambiguous
+    # (e.g. ".../INTENDED-DECISION-1400-SW-11-ST" -> "1400 SW 11 ST").
+    # This avoids the messy page text entirely. Fall back to the Location
+    # field only if the slug is missing.
+    slug = url.rstrip("/").split("/")[-1]
+    slug_addr = re.sub(r'^INTENDED-?DECISION-?', '', slug, flags=re.I)
+    address = slug_addr.replace("-", " ").strip()
     if not address:
-        m = re.search(r'INTENDED DECISION:\s*([A-Z0-9 ]+?)(?:\s{2,}|This is|Date|$)', flat)
-        address = m.group(1).strip() if m else url.rstrip("/").split("/")[-1]
+        address = find(r'Location:\s*([0-9A-Za-z .]+?)\s+(?:General Description|Reason For|Tree|Number of|Application|Appeals|Date|This is|$)')
+    if not address:
+        address = slug
 
-    issued  = find(r'Date Issued:\s*([0-9/]+)') or find(r'issued\s+([0-9/]{8,10})')
-    appeal  = find(r'Appeals Must Be Received By:\s*([0-9/]+)')
+    issued  = find(r'Date Issued:?\s*([0-9]{1,2}/[0-9]{1,2}/[0-9]{4})') \
+              or find(r'issued\s+([0-9]{1,2}/[0-9]{1,2}/[0-9]{4})')
+    appeal  = find(r'Appeals?\s+(?:Must Be|must be)\s+[Rr]eceived\s+[Bb]y:?\s*([0-9]{1,2}/[0-9]{1,2}/[0-9]{4})')
     appno   = find(r'Application Number:?\s*([A-Za-z0-9\-]+)')
     reason  = find(r'Reason For Tree Activity:\s*(.+?)\s+(?:Tree\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)|Number of Replacement|General Description|Trees listed above|Contact details|$)')
     reason  = re.sub(r'\s*\*+\s*$', '', reason).strip(" .") if reason else ""
