@@ -1,0 +1,64 @@
+name: Scrape Miami tree decisions and publish
+
+on:
+  schedule:
+    # Runs at 11:00 and 23:00 UTC daily (~7am & 7pm Miami time).
+    # Adjust or add lines as you like. Cron is in UTC.
+    - cron: "0 11 * * *"
+    - cron: "0 23 * * *"
+  workflow_dispatch:        # lets you run it manually from the Actions tab
+  push:
+    branches: [ main ]      # also rebuild when you push changes
+
+permissions:
+  contents: write           # to commit the regenerated docs/index.html
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Headless browser fallback for when the city blocks plain requests:
+          python -m playwright install --with-deps chromium
+
+      - name: Run scraper (writes docs/index.html)
+        run: python build_site.py
+
+      - name: Commit updated page
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          git commit -m "Auto-update tree decisions ($(date -u +'%Y-%m-%d %H:%M UTC'))" || echo "No changes to commit"
+          git push || echo "Nothing to push"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
