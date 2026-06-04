@@ -3,337 +3,500 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Miami Tree-Removal Intended Decisions</title>
 <style>
- :root { --red:#fdd; --redb:#c0392b; --yel:#fff6cc; --yelb:#caa307; }
- body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin:0; background:#f5f6f7; color:#1d1f21; }
- header { background:#0b5e3b; color:#fff; padding:18px 22px; }
- header h1 { margin:0; font-size:1.25rem; }
- .bar { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:12px 22px; background:#fff; border-bottom:1px solid #e2e4e6; }
- button { background:#0b5e3b; color:#fff; border:0; padding:9px 16px; border-radius:6px; font-size:0.95rem; cursor:pointer; }
- button:hover { background:#0d7049; }
- .meta { font-size:0.82rem; color:#555; }
- .legend span { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.78rem; margin-right:6px; }
- .lg-red { background:var(--red); border:1px solid var(--redb); }
- .lg-yel { background:var(--yel); border:1px solid var(--yelb); }
- .wrap { overflow-x:auto; padding:0 22px 40px; }
- table { border-collapse:collapse; width:100%; background:#fff; font-size:0.86rem; min-width:1000px; }
- th, td { border:1px solid #e2e4e6; padding:8px 10px; text-align:left; vertical-align:top; }
- th { background:#eef1f0; position:sticky; top:0; font-size:0.78rem; }
- td.num { text-align:center; }
- td.addr a { color:#0b5e3b; font-weight:600; text-decoration:none; }
- td.app { font-size:0.72rem; color:#888; }
- td.repl { max-width:320px; font-size:0.8rem; }
- td.reason { max-width:200px; font-size:0.8rem; }
- tr.red { background:var(--red); }
- tr.red td:first-child { border-left:4px solid var(--redb); }
- tr.yellow { background:var(--yel); }
- tr.yellow td:first-child { border-left:4px solid var(--yelb); }
- .note { padding:10px 22px; font-size:0.8rem; color:#666; }
- #spin { display:none; }
+ :root{--red:#fdd;--redb:#c0392b;--org:#ffe5cc;--orgb:#d35400;--yel:#fff6cc;--yelb:#caa307;}
+ *{box-sizing:border-box}
+ body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f5f6f7;color:#1d1f21}
+ header{background:#0b5e3b;color:#fff;padding:16px 22px}
+ header h1{margin:0;font-size:1.2rem}
+ .tabs{display:flex;gap:0;padding:0 22px;background:#fff;border-bottom:2px solid #e2e4e6}
+ .tab{padding:10px 20px;cursor:pointer;font-size:.9rem;border-bottom:3px solid transparent;margin-bottom:-2px;font-weight:500;color:#555}
+ .tab.active{border-bottom-color:#0b5e3b;color:#0b5e3b}
+ .pane{display:none}.pane.active{display:block}
+ .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 22px;background:#fff;border-bottom:1px solid #e2e4e6}
+ button{background:#0b5e3b;color:#fff;border:0;padding:8px 14px;border-radius:6px;font-size:.9rem;cursor:pointer}
+ button:hover{background:#0d7049}
+ .meta{font-size:.8rem;color:#555}
+ .legend span{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.76rem;margin-right:5px}
+ .lg-red{background:var(--red);border:1px solid var(--redb)}
+ .lg-org{background:var(--org);border:1px solid var(--orgb)}
+ .lg-yel{background:var(--yel);border:1px solid var(--yelb)}
+ .wrap{overflow-x:auto;padding:0 22px 40px}
+ table{border-collapse:collapse;width:100%;background:#fff;font-size:.84rem;min-width:1100px}
+ th,td{border:1px solid #e2e4e6;padding:7px 9px;text-align:left;vertical-align:top}
+ th{background:#eef1f0;position:sticky;top:0;font-size:.76rem;white-space:nowrap}
+ td.num{text-align:center}
+ td.addr a{color:#0b5e3b;font-weight:600;text-decoration:none}
+ .app{font-size:.7rem;color:#888}
+ td.repl{max-width:280px;font-size:.78rem}
+ td.reason{max-width:180px;font-size:.78rem}
+ td.manual{min-width:130px}
+ td.manual .val{font-size:.82rem;color:#1d1f21;display:block;min-height:1em}
+ td.manual input{width:100%;border:1px solid #ccc;border-radius:4px;padding:3px 6px;font-size:.8rem;margin-top:3px;display:none}
+ td.manual:hover input{display:block}
+ tr.red{background:var(--red)} tr.red td:first-child{border-left:4px solid var(--redb)}
+ tr.orange{background:var(--org)} tr.orange td:first-child{border-left:4px solid var(--orgb)}
+ tr.yellow{background:var(--yel)} tr.yellow td:first-child{border-left:4px solid var(--yelb)}
+ .note{padding:8px 22px;font-size:.78rem;color:#666}
+ .gs-banner{padding:6px 22px;font-size:.78rem;background:#e8f5e9;color:#1b5e20;border-bottom:1px solid #c8e6c9}
+ .gs-banner a{color:#0b5e3b}
 </style></head>
 <body>
 <header><h1>🌳 Miami Tree-Removal Intended Decisions</h1></header>
 <div class="bar">
-  <button onclick="doRefresh()">↻ Refresh</button>
-  <span class="meta">Auto-updated 2026-06-03 22:43:51 UTC &nbsp;•&nbsp; 21 decisions</span>
-  <span class="legend"><span class="lg-red">15+ trees</span><span class="lg-yel">8–14 trees</span></span>
+  <button onclick="location.reload(true)">↻ Refresh</button>
+  <span class="meta">Auto-updated 2026-06-04 01:49:26 UTC &nbsp;•&nbsp; 21 active &nbsp;•&nbsp; 0 expired</span>
+  <span class="legend">
+    <span class="lg-red">tree removal 8+</span>
+    <span class="lg-org">tree removal 5–7 or relocation 7+ (w/ removals)</span>
+    <span class="lg-yel">relocation 5+ or palm removal 7+</span>
+  </span>
 </div>
-<div class="note">Sorted by date posted (newest first). The data is re-scraped automatically
-on a schedule; <b>Refresh</b> loads the latest scraped version (it does not scrape live on
-click). Rows marked <b>pending scrape</b> will fill with real counts on the first scheduled
-run after you deploy. “Specimen”, “relocation”, and “prohibited” counts show <b>not stated</b>
-when the city’s notice doesn’t list them (these pages describe trees in prose and rarely flag
-specimen/prohibited status). Click an address to open the original notice.</div>
-<div class="wrap">
-<table>
-<thead><tr>
-<th>Address</th><th>Date posted</th><th>Appeal by</th>
-<th># removal</th><th># relocation</th>
+<div class="gs-banner" id="gs-banner">
+  📋 Manual columns load from Google Sheet.
+  <span id="gs-status">Connecting…</span>
+  &nbsp;|&nbsp; <a href="#" onclick="openSheet()">Open Sheet to edit</a>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('active',this)">Active decisions (21)</div>
+  <div class="tab" onclick="switchTab('expired',this)">Expired appeals (0)</div>
+</div>
+
+<div id="pane-active" class="pane active">
+<div class="note">Appeal deadline has not yet passed. Click an address to open the original notice.
+Hover a cell in the last column to add a note. Your edits save to the shared Google Sheet instantly.</div>
+<div class="wrap"><table>
+<thead><tr><th>Address</th><th>Date posted</th><th>Appeal by</th>
+<th># tree<br>removal</th><th># palm<br>removal</th>
+<th># tree<br>relocation</th><th># palm<br>relocation</th>
 <th>specimen<br>removal</th><th>specimen<br>relocation</th>
-<th>non-specimen /<br>non-prohibited</th><th>prohibited</th>
-<th>Reason</th>
-<th>Replacements</th>
-</tr></thead>
-<tbody>
-<tr class="">
+<th>prohibited</th><th>Reason</th><th>Replacements</th>
+<th>Appeal in<br>the works</th></tr></thead>
+<tbody><tr class="" data-appno="BD25-022781-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-1944-SW-16-TER" target="_blank">1944 SW 16 TER</a><div class="app">BD25-022781-001</div></td>
 <td>06/09/2026</td>
 <td>06/19/2026</td>
 <td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">2</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">3</td>
 <td class="num">not stated</td>
 <td class="reason">Located in the buildable footprint</td>
 <td class="repl">SIX(6) HARDWOOD TREES. To be planted within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-022781-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-022781-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-029992-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3925-LEAFY-WAY" target="_blank">3925 LEAFY WAY</a><div class="app">BD25-029992-001</div></td>
 <td>06/09/2026</td>
 <td>06/19/2026</td>
-<td class="num">3</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0</td>
 <td class="num">3</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">6</td>
 <td class="num">not stated</td>
 <td class="reason">trees are within the buildable footprint</td>
 <td class="repl">TWO (2) Simpson stopper, TWO (2) glossy privet</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-029992-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029992-001')"></td>
+
 </tr>
-<tr class="red">
+<tr class="" data-appno="BD25-029994-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION1141-N-VENETIAN-DR" target="_blank">1141 N VENETIAN DR</a><div class="app">BD25-029994-001</div></td>
 <td>06/09/2026</td>
 <td>06/19/2026</td>
-<td class="num">5</td>
+<td class="num">3</td>
+<td class="num">2</td>
+<td class="num">0</td>
 <td class="num">26</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">31</td>
 <td class="num">not stated</td>
 <td class="reason">Located in the buildable footprint</td>
 <td class="repl">TWO(2) HARDWOOD TREES. To be planted within the lot. ONE(1) HARDWOOD TREES. To be planted in the right of way</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-029994-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029994-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD26-005368-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-464-NE-55-TER" target="_blank">464 NE 55 TER</a><div class="app">BD26-005368-001</div></td>
 <td>06/09/2026</td>
 <td>06/19/2026</td>
-<td class="num">3</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">3</td>
 <td class="num">not stated</td>
 <td class="reason">Located in the buildable footprint</td>
 <td class="repl">THREE(3) HARDWOOD TREES and TWO(2) PALMS. To be planted within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD26-005368-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-005368-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="orange" data-appno="BD24-027148-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4141-NW-5-AV" target="_blank">4141 NW 5 AV</a><div class="app">BD24-027148-001</div></td>
 <td>06/02/2026</td>
 <td>06/12/2026</td>
-<td class="num">5</td>
+<td class="num">6</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">5</td>
 <td class="num">not stated</td>
 <td class="reason">—</td>
 <td class="repl">TEN (10) hardwoods throughout the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD24-027148-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD24-027148-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-025063-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4880-SW-6-ST" target="_blank">4880 SW 6 ST</a><div class="app">BD25-025063-001</div></td>
 <td>06/02/2026</td>
 <td>06/12/2026</td>
 <td class="num">2</td>
 <td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">2</td>
-<td class="num">not stated</td>
-<td class="reason">Trees have been effectively destroyed</td>
-<td class="repl">ONE(1) hardwood tree in the right-of-way in front of the lot and ONE(1) hardwood tree within the lot</td>
-</tr>
-<tr class="red">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3300-S-MOORINGS-WAY" target="_blank">3300 S MOORINGS WAY</a><div class="app">BD25-016965-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">22</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">22</td>
+<td class="num">not stated</td>
+<td class="reason">Trees have been effectively destroyed</td>
+<td class="repl">ONE(1) hardwood tree in the right-of-way in front of the lot and ONE(1) hardwood tree within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-025063-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-025063-001')"></td>
+
+</tr>
+<tr class="red" data-appno="BD25-016965-001">
+<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3300-S-MOORINGS-WAY" target="_blank">3300 S MOORINGS WAY</a><div class="app">BD25-016965-001</div></td>
+<td>06/02/2026</td>
+<td>06/12/2026</td>
+<td class="num">10</td>
+<td class="num">10</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num">not stated</td>
+<td class="num">not stated</td>
 <td class="num">1</td>
 <td class="reason">Trees and palms are in conflict with the proposed location of a single-family house</td>
 <td class="repl">SIX(6) hardwood trees within the right-of-way, and SIXTEEN(16) hardwood trees within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-016965-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-016965-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="26-171">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-1400-SW-11-ST" target="_blank">1400 SW 11 ST</a><div class="app">26-171</div></td>
 <td>06/02/2026</td>
 <td>06/17/2026</td>
 <td class="num">1</td>
 <td class="num">0</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">1</td>
 <td class="num">not stated</td>
-<td class="num">0</td>
 <td class="num">not stated</td>
 <td class="reason">Sick/diseased or dead tree</td>
 <td class="repl">N/A</td>
+<td class="manual" data-field="appeal_wip" data-key="26-171"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','26-171')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="26-172">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-600-NE-56-ST" target="_blank">600 NE 56 ST</a><div class="app">26-172</div></td>
 <td>06/02/2026</td>
 <td>06/17/2026</td>
 <td class="num">1</td>
 <td class="num">0</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">1</td>
 <td class="num">1</td>
 <td class="reason">Sick/diseased or dead tree</td>
 <td class="repl">N/A</td>
+<td class="manual" data-field="appeal_wip" data-key="26-172"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','26-172')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD26-009631-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-866-BELLE-MEADE-ISLAND-DR" target="_blank">866 BELLE MEADE ISLAND DR</a><div class="app">BD26-009631-001</div></td>
 <td>06/02/2026</td>
 <td>06/12/2026</td>
 <td class="num">1</td>
 <td class="num">0</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">1</td>
 <td class="num">not stated</td>
 <td class="reason">Prohibited Tree Species</td>
 <td class="repl">—</td>
+<td class="manual" data-field="appeal_wip" data-key="BD26-009631-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-009631-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD26-012045-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-499-NE-37-ST" target="_blank">499 NE 37 ST</a><div class="app">BD26-012045-001</div></td>
 <td>06/02/2026</td>
 <td>06/12/2026</td>
 <td class="num">1</td>
 <td class="num">0</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">1</td>
 <td class="num">not stated</td>
 <td class="reason">Legalization of Tree Removed without a permit</td>
 <td class="repl">—</td>
+<td class="manual" data-field="appeal_wip" data-key="BD26-012045-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-012045-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-010746-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-951-NW-37-AV" target="_blank">951 NW 37 AV</a><div class="app">BD25-010746-001</div></td>
 <td>06/02/2026</td>
 <td>06/12/2026</td>
-<td class="num">3</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">3</td>
 <td class="num">1</td>
 <td class="reason">tree removal without a permit</td>
 <td class="repl">TEN (10) hardwood trees throughout the property</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-010746-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-010746-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD26-000691-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-919-SW-23-RD" target="_blank">919 SW 23 RD</a><div class="app">BD26-000691-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
+<td class="num">0</td>
 <td class="num">1</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">1</td>
 <td class="num">not stated</td>
 <td class="reason">Located in the right of way (Sight Triangle)</td>
 <td class="repl">ONE(1) HARDWOOD TREE. To be planted within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD26-000691-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-000691-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-026099-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-940-NE-72-TER" target="_blank">940 NE 72 TER</a><div class="app">BD25-026099-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
-<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">3</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">4</td>
 <td class="num">not stated</td>
 <td class="reason">Located within the buildable footprint</td>
 <td class="repl">THREE(3) HARDWOOD TREES. To be planted within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-026099-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-026099-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-023751-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4220-NW-3-AV" target="_blank">4220 NW 3 AV</a><div class="app">BD25-023751-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
 <td class="num">3</td>
 <td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">3</td>
-<td class="num">not stated</td>
-<td class="reason">Located in the buildable footprint</td>
-<td class="repl">EIGHT(8) HARDWOOD and TWO(2) PALMS. To be planted within the lot. TREE TRUST FUND CONTRIBUTION</td>
-</tr>
-<tr class="">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-161-NW-29-ST" target="_blank">161 NW 29 ST</a><div class="app">BD25-023434-001</div></td>
-<td>05/26/2026</td>
-<td>06/05/2026</td>
-<td class="num">6</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">6</td>
+<td class="num">not stated</td>
+<td class="reason">Located in the buildable footprint</td>
+<td class="repl">EIGHT(8) HARDWOOD and TWO(2) PALMS. To be planted within the lot. TREE TRUST FUND CONTRIBUTION</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-023751-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-023751-001')"></td>
+
+</tr>
+<tr class="orange" data-appno="BD25-023434-001">
+<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-161-NW-29-ST" target="_blank">161 NW 29 ST</a><div class="app">BD25-023434-001</div></td>
+<td>05/26/2026</td>
+<td>06/05/2026</td>
+<td class="num">5</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num">not stated</td>
+<td class="num">not stated</td>
 <td class="num">1</td>
 <td class="reason">—</td>
 <td class="repl">SEVEN (7) hardwoods and TWO (2) Palms throughout the lot; TWO (2) hardwoods, and TWO (2) Palms in the ROW at NW 29 St, and ONE (1) hardwood in the ROW at NW 30 St. Also, contributions to the tree trust fund will be provided</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-023434-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-023434-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-021736-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-111-NW-60-ST" target="_blank">111 NW 60 ST</a><div class="app">BD25-021736-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
 <td class="num">0</td>
 <td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
 <td class="num">0</td>
+<td class="num">0</td>
+<td class="num">not stated</td>
+<td class="num">not stated</td>
 <td class="num">not stated</td>
 <td class="reason">Located in the buildable footprint</td>
 <td class="repl">—</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-021736-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-021736-001')"></td>
+
 </tr>
-<tr class="red">
+<tr class="red" data-appno="BD25-029627-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-101-NW-34-ST" target="_blank">101 NW 34 ST</a><div class="app">BD25-029627-001</div></td>
 <td>05/26/2026</td>
 <td>06/10/2026</td>
-<td class="num">23</td>
+<td class="num">13</td>
+<td class="num">3</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">6</td>
 <td class="num">not stated</td>
-<td class="num">17</td>
 <td class="num">not stated</td>
 <td class="reason">Tress are in poor condition and/or in conflict with proposed upgrades within the park</td>
 <td class="repl">FIFTYSEVEN(57) hardwood trees and FIFTYTWO(52) palm trees within the lot</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-029627-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029627-001')"></td>
+
 </tr>
-<tr class="yellow">
+<tr class="" data-appno="BD25-014592-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-6444-NE-4-AV" target="_blank">6444 NE 4 AV</a><div class="app">BD25-014592-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
 <td class="num">2</td>
-<td class="num">10</td>
+<td class="num">0</td>
+<td class="num">3</td>
+<td class="num">1</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">12</td>
 <td class="num">not stated</td>
 <td class="reason">Prohibited Species &amp; Tree(s) located within required sidewalk improvements</td>
 <td class="repl">—</td>
+<td class="manual" data-field="appeal_wip" data-key="BD25-014592-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-014592-001')"></td>
+
 </tr>
-<tr class="red">
+<tr class="" data-appno="BD23-028821-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4200-SW-3-ST" target="_blank">4200 SW 3 ST</a><div class="app">BD23-028821-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
-<td class="num">7</td>
-<td class="num">32</td>
+<td class="num">2</td>
+<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">0</td>
 <td class="num">not stated</td>
 <td class="num">not stated</td>
-<td class="num">39</td>
 <td class="num">not stated</td>
 <td class="reason">Non-Specimen trees located within the buildable footprint and unreasonably restricts the permitted use</td>
 <td class="repl">—</td>
+<td class="manual" data-field="appeal_wip" data-key="BD23-028821-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD23-028821-001')"></td>
+
 </tr>
-<tr class="">
+<tr class="" data-appno="BD25-014567-001">
 <td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3312-NW-5-AV" target="_blank">3312 NW 5 AV</a><div class="app">BD25-014567-001</div></td>
 <td>05/26/2026</td>
 <td>06/05/2026</td>
-<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
 <td class="num">0</td>
 <td class="num">2</td>
 <td class="num">not stated</td>
-<td class="num">2</td>
 <td class="num">not stated</td>
 <td class="reason">Trees are in poor condition and within the buildable footprint</td>
 <td class="repl">FIVE (5) Spanish stopper throughout the property, TWO (2) white trumpets, within the right of way. Contribution to the tree trust fund</td>
-</tr>
-</tbody></table>
-</div>
+<td class="manual" data-field="appeal_wip" data-key="BD25-014567-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-014567-001')"></td>
+
+</tr></tbody>
+</table></div></div>
+
+<div id="pane-expired" class="pane">
+<div class="note">Appeal deadline has passed. Rows move here automatically.
+"Appeal submitted – date of hearing" column is for manual entry.</div>
+<div class="wrap"><table>
+<thead><tr><th>Address</th><th>Date posted</th><th>Appeal by</th>
+<th># tree<br>removal</th><th># palm<br>removal</th>
+<th># tree<br>relocation</th><th># palm<br>relocation</th>
+<th>specimen<br>removal</th><th>specimen<br>relocation</th>
+<th>prohibited</th><th>Reason</th><th>Replacements</th>
+<th>Appeal in<br>the works</th><th>Appeal submitted –<br>date of hearing</th></tr></thead>
+<tbody><tr><td colspan="15" style="text-align:center;color:#888;padding:24px">No decisions in this tab.</td></tr></tbody>
+</table></div></div>
+
 <script>
-// On GitHub Pages there is no backend, so Refresh reloads the latest
-// auto-scraped page, bypassing the browser cache.
-function doRefresh() {
-  location.reload(true);
+// ── Tab switching ──────────────────────────────────────────────────────────
+function switchTab(name, el) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+  el.classList.add('active');
 }
+
+// ── Google Sheet integration ───────────────────────────────────────────────
+// Replace the SHEET_CSV_URL below with your published Sheet CSV link.
+// Instructions: see the README / deploy guide.
+var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzvK7YskKFgC5dOnk8aAjqPNbKL30pCIcIj_-65khI-IUe88v6FDZpeWhnDRuYTW9Dvwf_EzHP1xzH/pub?gid=0&single=true&output=csv";
+var SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/1FbDfJThEt1Sm_aIli0Lks_i3u2KM2n_CZT9PVHlwXXs/edit?gid=0#gid=0";
+var sheetData = {};  // appno -> {appeal_wip, hearing}
+
+function openSheet() { window.open(SHEET_EDIT_URL, '_blank'); }
+
+async function loadSheet() {
+  if (!SHEET_CSV_URL || SHEET_CSV_URL.startsWith("REPLACE")) {
+    document.getElementById('gs-status').textContent =
+      "⚠️ Sheet not configured yet — see README to set up.";
+    document.getElementById('gs-banner').style.background = '#fff8e1';
+    return;
+  }
+  try {
+    const r = await fetch(SHEET_CSV_URL + '&t=' + Date.now());
+    const text = await r.text();
+    parseCSV(text);
+    applySheetData();
+    document.getElementById('gs-status').textContent = "✓ Loaded";
+  } catch(e) {
+    document.getElementById('gs-status').textContent = "⚠️ Could not load Sheet: " + e;
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  // Skip header row; columns: App# | appeal_wip | hearing
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g,''));
+    if (!cols[0]) continue;
+    sheetData[cols[0]] = {
+      appeal_wip: cols[1] || '',
+      hearing:    cols[2] || '',
+    };
+  }
+}
+
+function applySheetData() {
+  document.querySelectorAll('tr[data-appno]').forEach(row => {
+    const key = row.dataset.appno;
+    const d = sheetData[key];
+    if (!d) return;
+    row.querySelectorAll('td[data-field]').forEach(cell => {
+      const val = d[cell.dataset.field] || '';
+      cell.querySelector('.val').textContent = val;
+      cell.querySelector('input').value = val;
+    });
+  });
+}
+
+// saveField: opens the Sheet for editing (since we can't write to a Sheet
+// from JS without an API key). Copies the value to clipboard and alerts.
+function saveField(input, field, key) {
+  const val = input.value.trim();
+  input.previousElementSibling.textContent = val;
+  // Tell the user to paste this value into the Sheet.
+  const fieldLabel = field === 'hearing' ? 'Appeal submitted – date of hearing' : 'Appeal in the works';
+  const msg = `To save this value to the shared sheet:\n\nApp#: ${key}\nField: ${fieldLabel}\nValue: ${val}\n\nThe Sheet will open — paste the value in the correct row/column.`;
+  if (confirm(msg + '\n\nOpen the Sheet now?')) {
+    window.open(SHEET_EDIT_URL, '_blank');
+  }
+}
+
+loadSheet();
 </script>
 </body></html>
