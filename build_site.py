@@ -193,10 +193,15 @@ def specimen_in_phrase(scope_txt):
     return total if total else None
 
 def prohibited_in_text(flat):
-    """Count trees tagged (prohibited) in full page text. Returns None if absent."""
+    """Count prohibited trees. Handles two city phrasings:
+    1. Inline tag: 'ONE(1) Brazilian Pepper (prohibited species)'
+    2. Species name: 'FOUR (4) Prohibited species trees'
+    Per user instruction: always count when the word 'prohibited' appears,
+    since the city only uses it in the context of prohibited trees."""
     if "prohibited" not in flat.lower():
         return None
     total = 0
+    # Pattern 1: (prohibited...) tag after a count+species
     for m in re.finditer(r'\(\s*prohibited[^)]*\)', flat, re.I):
         head = flat[:m.start()]
         cm = re.findall(r'\((\d+)\)|\b(' + "|".join(WORDNUM) + r')\b', head, re.I)
@@ -205,6 +210,17 @@ def prohibited_in_text(flat):
             total += int(last[0]) if last[0] else WORDNUM.get(last[1].lower(), 1)
         else:
             total += 1
+    # Pattern 2: 'N prohibited' or '(N) Prohibited species' — word precedes 'prohibited'
+    for m in re.finditer(
+            r'(?:(' + "|".join(WORDNUM) + r')\s*)?\((\d+)\)\s+Prohibited'
+            r'|(' + "|".join(WORDNUM) + r')\s+Prohibited',
+            flat, re.I):
+        if m.group(2):          # (N) Prohibited
+            total += int(m.group(2))
+        elif m.group(1):        # WORD (N) Prohibited
+            total += int(m.group(2)) if m.group(2) else WORDNUM.get(m.group(1).lower(), 1)
+        elif m.group(3):        # WORD Prohibited
+            total += WORDNUM.get(m.group(3).lower(), 1)
     return total if total else None
 
 # ---------------------------------------------------------------------------
