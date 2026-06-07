@@ -131,7 +131,7 @@
     "palms_relocate": 0,
     "specimen_remove": null,
     "specimen_relocate": null,
-    "prohibited": null,
+    "prohibited": 4,
     "replacements": "TWO (2) Hardwoods rear the lot and TWO (2) Hardwoods in the Right Of Way",
     "tier": "orange"
   },
