@@ -235,13 +235,14 @@ def parse_decision(text, url):
     reason = find(r'Reason For Tree Activity:\s*(.+?)\s+(?:Tree\s*\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)|Number of Replacement|General Description|Trees listed above|Contact details|$)')
     reason = re.sub(r'\s*\*+\s*$', '', reason).strip(" .") if reason else ""
 
-    NEXT = (r'(?=\s*(?:Tree\s*\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)\s+'
+    NEXT = (r'(?=\s*(?:(?:Tree|Palm)\s*\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)\s+'
             r'(?:Removed|Relocated|Pruned|Transplanted)|'
             r'Number of Replacement|Replacement Tree|Reason For|'
             r'General Description|Trees listed above|Contact|$))')
 
     def field_value(action):
-        pat = (r'Tree\s*\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)\s+' + action +
+        # Match labels starting with Tree(s) OR Palm(s) OR just Palm
+        pat = (r'(?:Tree|Palm)\s*\(?s?\)?\s+(?:to\s+be|that\s+will\s+be)\s+' + action +
                r'[^:]*:\s*(.*?)' + NEXT)
         m = re.search(pat, flat, re.I)
         return m.group(1).strip(" .") if m else ""
@@ -249,13 +250,26 @@ def parse_decision(text, url):
     remove_txt   = field_value(r'Removed')
     relocate_txt = field_value(r'(?:Relocated|Transplanted)')
 
+    # Strip (prohibited) tagged items from removal/relocation before palm/tree split
+    # so they aren't double-counted (they're already captured by prohibited_in_text).
+    def strip_prohibited(phrase):
+        if not phrase or 'prohibited' not in phrase.lower():
+            return phrase
+        # Remove items that end with (prohibited ...) by removing the preceding count+species
+        return re.sub(
+            r'(?:,\s*)?(?:[A-Za-z\s]+\s*)?\([^)]*\)\s*[A-Za-z\s]*\(\s*prohibited[^)]*\)',
+            '', phrase, flags=re.I).strip(' ,')
+
+    remove_txt_clean   = strip_prohibited(remove_txt)
+    relocate_txt_clean = strip_prohibited(relocate_txt)
+
     m_repl = re.search(r'(?:Number of Replacement Trees?|Replacement Trees?)[^:]*:\s*(.*?)' + NEXT, flat, re.I)
     replace_txt = m_repl.group(1).strip(" .") if m_repl else ""
     replace_txt = re.sub(r'\s*\*+\s*$', '', replace_txt).strip(" .")
 
     # Split removals and relocations into palms vs trees.
-    palms_remove, trees_remove     = split_palm_tree(remove_txt)
-    palms_relocate, trees_relocate = split_palm_tree(relocate_txt)
+    palms_remove, trees_remove     = split_palm_tree(remove_txt_clean)
+    palms_relocate, trees_relocate = split_palm_tree(relocate_txt_clean)
 
     specimen_remove   = specimen_in_phrase(remove_txt)
     specimen_relocate = specimen_in_phrase(relocate_txt)
