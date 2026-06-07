@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Miami Tree-Removal Intended Decisions</title>
+<title>Miami Tree Removal Intended Decisions</title>
 <style>
  :root{--red:#fdd;--redb:#c0392b;--org:#ffe5cc;--orgb:#d35400;--yel:#fff6cc;--yelb:#caa307;}
  *{box-sizing:border-box}
@@ -39,12 +39,13 @@
  .note{padding:8px 22px;font-size:.78rem;color:#666}
  .gs-banner{padding:6px 22px;font-size:.78rem;background:#e8f5e9;color:#1b5e20;border-bottom:1px solid #c8e6c9}
  .gs-banner a{color:#0b5e3b}
+ #loading{padding:40px;text-align:center;color:#888}
 </style></head>
 <body>
 <header><h1>🌳 Miami Tree Removal Intended Decisions</h1></header>
 <div class="bar">
   <button onclick="location.reload(true)">↻ Refresh</button>
-  <span class="meta">Auto-updated 2026-06-07 03:27:49 UTC &nbsp;•&nbsp; 17 decisions</span>
+  <span class="meta">Data updated 2026-06-07 03:32:31 UTC &nbsp;•&nbsp; 17 decisions on record</span>
   <span class="legend">
     <span class="lg-red">tree removal 8+</span>
     <span class="lg-org">tree removal 5–7 or relocation 7+ (w/ removals)</span>
@@ -62,304 +63,59 @@
 </div>
 
 <div id="pane-active" class="pane active">
-<div class="note">Appeal deadline has not yet passed. Click an address to open the original notice.
-Hover a cell in the last column to add a note.</div>
+<div class="note">Appeal deadline has not yet passed. Hover the last column to add a note.</div>
 <div class="wrap"><table>
-<thead><tr><th>Address</th><th>Date posted</th><th>Appeal by</th>
+<thead><tr>
+<th>Address</th><th>Date posted</th><th>Appeal by</th>
 <th># tree<br>removal</th><th># tree<br>relocation</th>
 <th># palm<br>removal</th><th># palm<br>relocation</th>
 <th>specimen<br>removal</th><th>specimen<br>relocation</th>
-<th>prohibited</th><th>Reason</th><th>Replacements</th><th>Appeal in<br>the works</th></tr></thead>
-<tbody id="tbody-active"></tbody>
+<th>prohibited</th><th>Reason</th><th>Replacements</th>
+<th>Appeal in<br>the works</th>
+</tr></thead>
+<tbody id="tbody-active"><tr><td colspan="13" id="loading">Loading…</td></tr></tbody>
 </table></div></div>
 
 <div id="pane-expired" class="pane">
-<div class="note">Appeal deadline has passed. Rows move here automatically.
-"Appeal submitted – date of hearing" column is for manual entry.</div>
+<div class="note">Appeal deadline has passed. Rows stay here permanently.</div>
 <div class="wrap"><table>
-<thead><tr><th>Address</th><th>Date posted</th><th>Appeal by</th>
+<thead><tr>
+<th>Address</th><th>Date posted</th><th>Appeal by</th>
 <th># tree<br>removal</th><th># tree<br>relocation</th>
 <th># palm<br>removal</th><th># palm<br>relocation</th>
 <th>specimen<br>removal</th><th>specimen<br>relocation</th>
-<th>prohibited</th><th>Reason</th><th>Replacements</th><th>Appeal submitted –<br>date of hearing</th></tr></thead>
+<th>prohibited</th><th>Reason</th><th>Replacements</th>
+<th>Appeal submitted –<br>date of hearing</th>
+</tr></thead>
 <tbody id="tbody-expired"></tbody>
 </table></div></div>
 
-<!-- Hidden staging area holding all scraped rows -->
-<tbody id="tbody-all" style="display:none"><tr class="" data-appno="BD25-022781-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-1944-SW-16-TER" target="_blank">1944 SW 16 TER</a><div class="app">BD25-022781-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">2</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Located in the buildable footprint</td>
-<td class="repl">SIX(6) HARDWOOD TREES. To be planted within the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-022781-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-022781-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-022781-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-022781-001')"></td>
-</tr>
-<tr class="yellow" data-appno="BD25-029992-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3925-LEAFY-WAY" target="_blank">3925 LEAFY WAY</a><div class="app">BD25-029992-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">2</td>
-<td class="num">0</td>
-<td class="num">1</td>
-<td class="num">3</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">trees are within the buildable footprint</td>
-<td class="repl">TWO (2) Simpson stopper, TWO (2) glossy privet</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-029992-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029992-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-029992-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-029992-001')"></td>
-</tr>
-<tr class="yellow" data-appno="BD25-029994-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION1141-N-VENETIAN-DR" target="_blank">1141 N VENETIAN DR</a><div class="app">BD25-029994-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">3</td>
-<td class="num">0</td>
-<td class="num">2</td>
-<td class="num">26</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Located in the buildable footprint</td>
-<td class="repl">TWO(2) HARDWOOD TREES. To be planted within the lot. ONE(1) HARDWOOD TREES. To be planted in the right of way</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-029994-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029994-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-029994-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-029994-001')"></td>
-</tr>
-<tr class="" data-appno="BD26-005368-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-464-NE-55-TER" target="_blank">464 NE 55 TER</a><div class="app">BD26-005368-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">2</td>
-<td class="num">0</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Located in the buildable footprint</td>
-<td class="repl">THREE(3) HARDWOOD TREES and TWO(2) PALMS. To be planted within the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD26-005368-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-005368-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD26-005368-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD26-005368-001')"></td>
-</tr>
-<tr class="" data-appno="BD25-021576-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3306-NW-10-AV" target="_blank">3306 NW 10 AV</a><div class="app">BD25-021576-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Located in the buildable footprint</td>
-<td class="repl">EIGHT(8) HARDWOOD TREES. To be planted within the lot. TWO(2) HARDWOOD TREES. To be planted within the right of way</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-021576-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-021576-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-021576-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-021576-001')"></td>
-</tr>
-<tr class="" data-appno="BD26-012051-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3587-HIBISCUS-ST" target="_blank">3587 HIBISCUS ST</a><div class="app">BD26-012051-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">After-The-Fact Tree Removal</td>
-<td class="repl">—</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD26-012051-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-012051-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD26-012051-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD26-012051-001')"></td>
-</tr>
-<tr class="" data-appno="BD23-019839-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-2655-SW-24-AV" target="_blank">2655 SW 24 AV</a><div class="app">BD23-019839-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">After-the-Fact removal of trees that were said to be causing structural issues. Tree(s) Removed After-the-Fact &amp; Location: (1) Coconut Palm, (2) Areca Palm &amp; (1) Clusia</td>
-<td class="repl">—</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD23-019839-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD23-019839-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD23-019839-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD23-019839-001')"></td>
-</tr>
-<tr class="orange" data-appno="BD21-017025-001" data-appeal="06/19/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION624-NW-65-ST" target="_blank">624 NW 65 ST</a><div class="app">BD21-017025-001</div></td>
-<td>06/09/2026</td>
-<td>06/19/2026</td>
-<td class="num">5</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Conflict with the proposed construction</td>
-<td class="repl">TWO (2) Hardwoods rear the lot and TWO (2) Hardwoods in the Right Of Way</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD21-017025-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD21-017025-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD21-017025-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD21-017025-001')"></td>
-</tr>
-<tr class="orange" data-appno="BD24-027148-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4141-NW-5-AV" target="_blank">4141 NW 5 AV</a><div class="app">BD24-027148-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">6</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">—</td>
-<td class="repl">TEN (10) hardwoods throughout the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD24-027148-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD24-027148-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD24-027148-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD24-027148-001')"></td>
-</tr>
-<tr class="" data-appno="BD25-025063-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-4880-SW-6-ST" target="_blank">4880 SW 6 ST</a><div class="app">BD25-025063-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">2</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Trees have been effectively destroyed</td>
-<td class="repl">ONE(1) hardwood tree in the right-of-way in front of the lot and ONE(1) hardwood tree within the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-025063-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-025063-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-025063-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-025063-001')"></td>
-</tr>
-<tr class="red" data-appno="BD25-016965-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3300-S-MOORINGS-WAY" target="_blank">3300 S MOORINGS WAY</a><div class="app">BD25-016965-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">11</td>
-<td class="num">0</td>
-<td class="num">10</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">1</td>
-<td class="reason">Trees and palms are in conflict with the proposed location of a single-family house</td>
-<td class="repl">SIX(6) hardwood trees within the right-of-way, and SIXTEEN(16) hardwood trees within the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-016965-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-016965-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-016965-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-016965-001')"></td>
-</tr>
-<tr class="yellow" data-appno="26-171" data-appeal="06/17/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-1400-SW-11-ST" target="_blank">1400 SW 11 ST</a><div class="app">26-171</div></td>
-<td>06/02/2026</td>
-<td>06/17/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">1</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Sick/diseased or dead tree</td>
-<td class="repl">N/A</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="26-171"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','26-171')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="26-171"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','26-171')"></td>
-</tr>
-<tr class="" data-appno="26-172" data-appeal="06/17/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-600-NE-56-ST" target="_blank">600 NE 56 ST</a><div class="app">26-172</div></td>
-<td>06/02/2026</td>
-<td>06/17/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">1</td>
-<td class="reason">Sick/diseased or dead tree</td>
-<td class="repl">N/A</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="26-172"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','26-172')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="26-172"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','26-172')"></td>
-</tr>
-<tr class="" data-appno="BD26-009631-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-866-BELLE-MEADE-ISLAND-DR" target="_blank">866 BELLE MEADE ISLAND DR</a><div class="app">BD26-009631-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Prohibited Tree Species</td>
-<td class="repl">—</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD26-009631-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-009631-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD26-009631-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD26-009631-001')"></td>
-</tr>
-<tr class="" data-appno="BD26-012045-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-499-NE-37-ST" target="_blank">499 NE 37 ST</a><div class="app">BD26-012045-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Legalization of Tree Removed without a permit</td>
-<td class="repl">—</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD26-012045-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD26-012045-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD26-012045-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD26-012045-001')"></td>
-</tr>
-<tr class="" data-appno="BD25-010746-001" data-appeal="06/12/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-951-NW-37-AV" target="_blank">951 NW 37 AV</a><div class="app">BD25-010746-001</div></td>
-<td>06/02/2026</td>
-<td>06/12/2026</td>
-<td class="num">2</td>
-<td class="num">0</td>
-<td class="num">1</td>
-<td class="num">0</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="num">1</td>
-<td class="reason">tree removal without a permit</td>
-<td class="repl">TEN (10) hardwood trees throughout the property</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-010746-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-010746-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-010746-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-010746-001')"></td>
-</tr>
-<tr class="red" data-appno="BD25-029627-001" data-appeal="06/10/2026">
-<td class="addr"><a href="https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-101-NW-34-ST" target="_blank">101 NW 34 ST</a><div class="app">BD25-029627-001</div></td>
-<td>05/26/2026</td>
-<td>06/10/2026</td>
-<td class="num">13</td>
-<td class="num">8</td>
-<td class="num">10</td>
-<td class="num">9</td>
-<td class="num">6</td>
-<td class="num">not stated</td>
-<td class="num">not stated</td>
-<td class="reason">Tress are in poor condition and/or in conflict with proposed upgrades within the park</td>
-<td class="repl">FIFTYSEVEN(57) hardwood trees and FIFTYTWO(52) palm trees within the lot</td>
-<td class="manual wip-cell" data-field="appeal_wip" data-key="BD25-029627-001"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','BD25-029627-001')"></td>
-<td class="manual hearing-cell" data-field="hearing" data-key="BD25-029627-001"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','BD25-029627-001')"></td>
-</tr></tbody>
-
 <script>
+// ── Helpers ────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function ns(v) {
+  return (v===null||v===undefined||v==='')?'not stated':esc(String(v));
+}
+function dash(v) {
+  return (v===null||v===undefined||v===''||v==='—')?'—':esc(String(v));
+}
+
+// ── Tier logic ─────────────────────────────────────────────────────────────
+function tierFor(r) {
+  const tr  = parseInt(r.trees_remove)   || 0;
+  const trl = parseInt(r.trees_relocate) || 0;
+  const pr  = parseInt(r.palms_remove)   || 0;
+  const prl = parseInt(r.palms_relocate) || 0;
+  const sr  = parseInt(r.specimen_remove)   || 0;
+  const srl = parseInt(r.specimen_relocate) || 0;
+  if (tr >= 8) return 'red';
+  if ((tr >= 5 && tr <= 7) || (trl >= 7 && tr > 0)) return 'orange';
+  if (trl >= 5 || pr >= 7 || (tr+trl+pr+prl) > 4 || (sr+srl) > 0) return 'yellow';
+  return '';
+}
+
 // ── Tab switching ──────────────────────────────────────────────────────────
 function switchTab(name, el) {
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
@@ -368,88 +124,17 @@ function switchTab(name, el) {
   el.classList.add('active');
 }
 
-// ── Split rows into active / expired based on today's date ─────────────────
-function splitRows() {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const tbodyActive  = document.getElementById('tbody-active');
-  const tbodyExpired = document.getElementById('tbody-expired');
-  const allRows = Array.from(document.querySelectorAll('#tbody-all tr[data-appeal]'));
-  let nActive = 0, nExpired = 0;
-
-  allRows.forEach(row => {
-    const appealStr = row.dataset.appeal;  // MM/DD/YYYY
-    let isExpired = false;
-    if (appealStr && appealStr.match(/\d{1,2}\/\d{1,2}\/\d{4}/)) {
-      const p = appealStr.split('/');
-      const appealDate = new Date(p[2], p[0]-1, p[1]);
-      isExpired = appealDate < today;
-    }
-    const clone = row.cloneNode(true);
-    // Show/hide the right last column for each tab.
-    if (isExpired) {
-      clone.querySelectorAll('.wip-cell').forEach(c => c.style.display='none');
-      tbodyExpired.appendChild(clone);
-      nExpired++;
-    } else {
-      clone.querySelectorAll('.hearing-cell').forEach(c => c.style.display='none');
-      tbodyActive.appendChild(clone);
-      nActive++;
-    }
-  });
-
-  document.getElementById('tab-active').textContent  = `Active decisions (${nActive})`;
-  document.getElementById('tab-expired').textContent = `Expired decisions (${nExpired})`;
-}
-
-splitRows();
-
-// ── Google Sheet integration ───────────────────────────────────────────────
-var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzvK7YskKFgC5dOnk8aAjqPNbKL30pCIcIj_-65khI-IUe88v6FDZpeWhnDRuYTW9Dvwf_EzHP1xzH/pub?gid=0&single=true&output=csv";
+// ── Google Sheet ───────────────────────────────────────────────────────────
+var SHEET_CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzvK7YskKFgC5dOnk8aAjqPNbKL30pCIcIj_-65khI-IUe88v6FDZpeWhnDRuYTW9Dvwf_EzHP1xzH/pub?gid=0&single=true&output=csv";
 var SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/1FbDfJThEt1Sm_aIli0Lks_i3u2KM2n_CZT9PVHlwXXs/edit?gid=0#gid=0";
-
-// Sheet columns (0-indexed):
-// A=0 App#  B=1 Appeal in the works  C=2 Hearing date
-// D=3 Address  E=4 Date posted  F=5 Appeal by
-// G=6 tree removal  H=7 palm removal  I=8 tree relocation  J=9 palm relocation
-// K=10 specimen removal  L=11 specimen relocation  M=12 prohibited
-// N=13 Reason  O=14 Replacements
-
-var sheetData = {};       // appno -> matched row data
-var manualRows = [];        // rows with address but no matching scraped row
-
-// All scraped appnos (so we know which Sheet rows are manual-only).
-var scrapedAppnos = new Set(
-  Array.from(document.querySelectorAll('#tbody-all tr[data-appno]'))
-       .map(r => r.dataset.appno).filter(Boolean)
-);
+var sheetData  = {};
+var manualRows = [];
+var allDecisions = [];
 
 function openSheet() { window.open(SHEET_EDIT_URL, '_blank'); }
 
-async function loadSheet() {
-  if (!SHEET_CSV_URL || SHEET_CSV_URL.startsWith("REPLACE")) {
-    document.getElementById('gs-status').textContent =
-      "⚠️ Sheet not configured yet.";
-    document.getElementById('gs-banner').style.background = '#fff8e1';
-    return;
-  }
-  try {
-    const r = await fetch(SHEET_CSV_URL + '&t=' + Date.now());
-    const text = await r.text();
-    parseCSV(text);
-    applySheetData();
-    injectManualRows();
-    document.getElementById('gs-status').textContent =
-      "✓ Loaded" + (manualRows.length ? " (+" + manualRows.length + " manual rows)" : "");
-  } catch(e) {
-    document.getElementById('gs-status').textContent = "⚠️ Could not load Sheet: " + e;
-  }
-}
-
 function parseCSVLine(line) {
-  // Handle quoted fields (commas inside quotes).
-  const result = [];
-  let cur = '', inQ = false;
+  const result = []; let cur = '', inQ = false;
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (ch === '"') { inQ = !inQ; }
@@ -464,119 +149,137 @@ function parseCSV(text) {
   const lines = text.trim().split('\n');
   for (let i = 1; i < lines.length; i++) {
     const c = parseCSVLine(lines[i]);
-    const appno = (c[0] || '').trim();
+    const appno = (c[0]||'').trim();
     if (!appno) continue;
-    const entry = {
-      appeal_wip: c[1] || '',
-      hearing:    c[2] || '',
-      address:    c[3] || '',
-      issued:     c[4] || '',
-      appeal:     c[5] || '',
-      trees_remove:   c[6] || '',
-      trees_relocate: c[7] || '',
-      palms_remove:   c[8] || '',
-      palms_relocate: c[9] || '',
-      spec_remove:    c[10] || '',
-      spec_relocate:  c[11] || '',
-      prohibited:     c[12] || '',
-      reason:         c[13] || '',
-      replacements:   c[14] || '',
+    sheetData[appno] = {
+      appeal_wip:     c[1]||'',
+      hearing:        c[2]||'',
+      address:        c[3]||'',
+      issued:         c[4]||'',
+      appeal:         c[5]||'',
+      trees_remove:   c[6]||'',
+      trees_relocate: c[7]||'',
+      palms_remove:   c[8]||'',
+      palms_relocate: c[9]||'',
+      spec_remove:    c[10]||'',
+      spec_relocate:  c[11]||'',
+      prohibited:     c[12]||'',
+      reason:         c[13]||'',
+      replacements:   c[14]||'',
     };
-    sheetData[appno] = entry;
-    // Manual-only: has an address in the Sheet AND not in scraped rows.
-    if (entry.address && !scrapedAppnos.has(appno)) {
-      manualRows.push({appno, ...entry});
-    }
   }
 }
 
-function applySheetData() {
-  document.querySelectorAll('#tbody-active tr[data-appno], #tbody-expired tr[data-appno]').forEach(row => {
-    const d = sheetData[row.dataset.appno];
-    if (!d) return;
-    row.querySelectorAll('td[data-field]').forEach(cell => {
-      const val = d[cell.dataset.field] || '';
-      cell.querySelector('.val').textContent = val;
-      cell.querySelector('input').value = val;
+async function loadSheet() {
+  try {
+    const r = await fetch(SHEET_CSV_URL + '&t=' + Date.now());
+    const text = await r.text();
+    parseCSV(text);
+    // Collect manual-only rows (address in Sheet but not in decisions.json).
+    const jsonAppnos = new Set(allDecisions.map(d => d.appno).filter(Boolean));
+    manualRows = Object.entries(sheetData)
+      .filter(([k,v]) => v.address && !jsonAppnos.has(k))
+      .map(([k,v]) => ({appno:k,...v}));
+    document.getElementById('gs-status').textContent =
+      '✓ Loaded' + (manualRows.length ? ` (+${manualRows.length} manual rows)` : '');
+  } catch(e) {
+    document.getElementById('gs-status').textContent = '⚠️ Could not load Sheet: ' + e;
+  }
+}
+
+// ── Build a table row HTML string ──────────────────────────────────────────
+function buildRow(r, isExpired) {
+  const tier = tierFor(r);
+  const appno = esc(r.appno||'');
+  const wip   = sheetData[r.appno]?.appeal_wip || '';
+  const hrg   = sheetData[r.appno]?.hearing    || '';
+  const lastCol = isExpired
+    ? `<td class="manual" data-field="hearing" data-key="${appno}"><span class="val">${esc(hrg)}</span><input type="text" placeholder="add date…" value="${esc(hrg)}" onchange="saveField(this,'hearing','${appno}')"></td>`
+    : `<td class="manual" data-field="appeal_wip" data-key="${appno}"><span class="val">${esc(wip)}</span><input type="text" placeholder="add note…" value="${esc(wip)}" onchange="saveField(this,'appeal_wip','${appno}')"></td>`;
+  const addrCell = r.url
+    ? `<a href="${esc(r.url)}" target="_blank">${esc(r.address)}</a>`
+    : `<span style="font-weight:600;color:#0b5e3b">${esc(r.address)}</span>`;
+  return `<tr class="${tier}" data-appno="${appno}">
+<td class="addr">${addrCell}<div class="app">${esc(r.appno)}</div></td>
+<td>${dash(r.issued)}</td><td>${dash(r.appeal)}</td>
+<td class="num">${ns(r.trees_remove)}</td>
+<td class="num">${ns(r.trees_relocate)}</td>
+<td class="num">${ns(r.palms_remove)}</td>
+<td class="num">${ns(r.palms_relocate)}</td>
+<td class="num">${ns(r.specimen_remove)}</td>
+<td class="num">${ns(r.specimen_relocate)}</td>
+<td class="num">${ns(r.prohibited)}</td>
+<td class="reason">${dash(r.reason)}</td>
+<td class="repl">${dash(r.replacements)}</td>
+${lastCol}
+</tr>`;
+}
+
+// ── Main render: split by date, inject manual rows, update counts ──────────
+function renderTables() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  function toDate(s) {
+    if (!s) return null;
+    const p = s.split('/');
+    return p.length===3 ? new Date(p[2],p[0]-1,p[1]) : null;
+  }
+
+  const active = [], expired = [];
+  allDecisions.forEach(r => {
+    const d = toDate(r.appeal);
+    (d && d < today ? expired : active).push(r);
+  });
+
+  // Add manual-only rows to expired.
+  manualRows.forEach(d => {
+    expired.push({
+      address: d.address, issued: d.issued, appeal: d.appeal,
+      appno: d.appno, url: '',
+      trees_remove: d.trees_remove, trees_relocate: d.trees_relocate,
+      palms_remove: d.palms_remove, palms_relocate: d.palms_relocate,
+      specimen_remove: d.spec_remove, specimen_relocate: d.spec_relocate,
+      prohibited: d.prohibited, reason: d.reason, replacements: d.replacements,
     });
   });
+  expired.sort((a,b) => (toDate(b.issued)||new Date(0)) - (toDate(a.issued)||new Date(0)));
+
+  document.getElementById('tbody-active').innerHTML =
+    active.length ? active.map(r => buildRow(r,false)).join('') :
+    '<tr><td colspan="13" style="text-align:center;color:#888;padding:24px">No active decisions.</td></tr>';
+  document.getElementById('tbody-expired').innerHTML =
+    expired.length ? expired.map(r => buildRow(r,true)).join('') :
+    '<tr><td colspan="13" style="text-align:center;color:#888;padding:24px">No expired decisions yet.</td></tr>';
+
+  document.getElementById('tab-active').textContent  = `Active decisions (${active.length})`;
+  document.getElementById('tab-expired').textContent = `Expired decisions (${expired.length})`;
 }
 
-// ── Tier logic (mirrors Python) ────────────────────────────────────────────
-function tierFor(tr, trl, pr, prl, specRm, specRl) {
-  tr     = parseInt(tr)     || 0;
-  trl    = parseInt(trl)    || 0;
-  pr     = parseInt(pr)     || 0;
-  prl    = parseInt(prl)    || 0;
-  specRm = parseInt(specRm) || 0;
-  specRl = parseInt(specRl) || 0;
-  if (tr >= 8) return 'red';
-  if ((tr >= 5 && tr <= 7) || (trl >= 7 && tr > 0)) return 'orange';
-  if (trl >= 5 || pr >= 7 || (tr + trl + pr + prl) > 4 || (specRm + specRl) > 0) return 'yellow';
-  return '';
-}
-
-// ── Inject manual-only rows into expired tbody, sorted by date ─────────────
-function injectManualRows() {
-  if (!manualRows.length) return;
-  const tbody = document.getElementById('tbody-expired');
-  if (!tbody) return;
-
-  const existing = Array.from(tbody.querySelectorAll('tr[data-appno]')).map(tr => ({
-    el: tr,
-    date: tr.querySelector('td:nth-child(2)')?.textContent.trim() || ''
-  }));
-
-  manualRows.forEach(d => {
-    const tier = tierFor(d.trees_remove, d.trees_relocate, d.palms_remove, d.palms_relocate, d.spec_remove, d.spec_relocate);
-    const appno_esc = d.appno.replace(/'/g, "\'");
-    const tr = document.createElement('tr');
-    tr.className = tier;
-    tr.dataset.appno = d.appno;
-    tr.innerHTML = `
-<td class="addr"><span style="font-weight:600;color:#0b5e3b">${d.address || '—'}</span>
-  <div class="app">${d.appno}</div></td>
-<td>${d.issued || '—'}</td>
-<td>${d.appeal || '—'}</td>
-<td class="num">${d.trees_remove || '—'}</td>
-<td class="num">${d.trees_relocate || '—'}</td>
-<td class="num">${d.palms_remove || '—'}</td>
-<td class="num">${d.palms_relocate || '—'}</td>
-<td class="num">${d.spec_remove || 'not stated'}</td>
-<td class="num">${d.spec_relocate || 'not stated'}</td>
-<td class="num">${d.prohibited || 'not stated'}</td>
-<td class="reason">${d.reason || '—'}</td>
-<td class="repl">${d.replacements || '—'}</td>
-<td class="manual hearing-cell" data-field="hearing" data-key="${appno_esc}">
-  <span class="val">${d.hearing}</span>
-  <input type="text" placeholder="add date…" value="${d.hearing}"
-    onchange="saveField(this,'hearing','${appno_esc}')">
-</td>`;
-    existing.push({ el: tr, date: d.issued || '' });
-  });
-
-  function toDate(s) {
-    if (!s) return new Date(0);
-    const p = s.split('/');
-    return p.length === 3 ? new Date(p[2], p[0]-1, p[1]) : new Date(0);
-  }
-  existing.sort((a, b) => toDate(b.date) - toDate(a.date));
-  tbody.querySelectorAll('tr:not([data-appno])').forEach(r => r.remove());
-  existing.forEach(item => tbody.appendChild(item.el));
-
-  const tab = document.getElementById('tab-expired');
-  if (tab) tab.textContent = `Expired decisions (${existing.length})`;
-}
-
-// ── Save field (prompt to update Sheet) ────────────────────────────────────
+// ── Save field ─────────────────────────────────────────────────────────────
 function saveField(input, field, key) {
   const val = input.value.trim();
   input.previousElementSibling.textContent = val;
-  const label = field === 'hearing' ? 'Appeal submitted – date of hearing' : 'Appeal in the works';
-  const msg = `To save to the shared Sheet:\n\nApp#: ${key}\nField: ${label}\nValue: ${val}\n\nOpen the Sheet now?`;
-  if (confirm(msg)) window.open(SHEET_EDIT_URL, '_blank');
+  const label = field==='hearing' ? 'Appeal submitted – date of hearing' : 'Appeal in the works';
+  if (confirm(`To save to the shared Sheet:\n\nApp#: ${key}\nField: ${label}\nValue: ${val}\n\nOpen the Sheet now?`))
+    window.open(SHEET_EDIT_URL,'_blank');
 }
 
-loadSheet();
+// ── Boot ───────────────────────────────────────────────────────────────────
+async function init() {
+  // Load decisions.json (permanent record).
+  try {
+    const r = await fetch('decisions.json?t=' + Date.now());
+    allDecisions = await r.json();
+  } catch(e) {
+    document.getElementById('tbody-active').innerHTML =
+      `<tr><td colspan="13" style="color:red;padding:24px">Could not load decisions.json: ${e}</td></tr>`;
+    return;
+  }
+  // Load Sheet (manual columns + manual rows).
+  await loadSheet();
+  // Render everything.
+  renderTables();
+}
+
+init();
 </script>
 </body></html>
