@@ -358,43 +358,18 @@ def cell(v):
     return "not stated" if v is None else html.escape(str(v))
 
 def render(rows):
-    ts   = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-    today = datetime.datetime.utcnow().date()
+    ts    = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Split into active (appeal not yet passed) and expired.
-    active, expired = [], []
-    for r in rows:
-        try:
-            ap = datetime.datetime.strptime(r["appeal"], "%m/%d/%Y").date()
-            if ap < today:
-                expired.append(r)
-            else:
-                active.append(r)
-        except Exception:
-            active.append(r)   # unknown date stays on main tab
-
-    def build_rows(rlist, include_hearing=False, include_wip=True):
+    def build_rows(rlist):
         out = []
         for r in rlist:
-            cls = r.get("tier","")
+            cls      = r.get("tier","")
             appno_js = html.escape(r["appno"].replace("'","\\'"))
-            hearing_cell = (
-                f'<td class="manual" data-field="hearing" data-key="{appno_js}">'
-                f'<span class="val"></span>'
-                f'<input type="text" placeholder="add date…" onchange="saveField(this,\'hearing\',\'{appno_js}\')">'
-                f'</td>'
-            ) if include_hearing else ""
-            wip_cell = (
-                f'<td class="manual" data-field="appeal_wip" data-key="{appno_js}">'
-                f'<span class="val"></span>'
-                f'<input type="text" placeholder="add note…" onchange="saveField(this,\'appeal_wip\',\'{appno_js}\')">'
-                f'</td>'
-            ) if include_wip else ""
-            col_count = 12 + (1 if include_wip else 0) + (1 if include_hearing else 0)
-            out.append(f"""<tr class="{cls}" data-appno="{appno_js}">
+            appeal   = cell(r['appeal'])
+            out.append(f"""<tr class="{cls}" data-appno="{appno_js}" data-appeal="{appeal}">
 <td class="addr"><a href="{html.escape(r['url'])}" target="_blank">{cell(r['address'])}</a><div class="app">{cell(r['appno'])}</div></td>
 <td>{cell(r['issued'])}</td>
-<td>{cell(r['appeal'])}</td>
+<td>{appeal}</td>
 <td class="num">{cell(r['trees_remove'])}</td>
 <td class="num">{cell(r['trees_relocate'])}</td>
 <td class="num">{cell(r['palms_remove'])}</td>
@@ -404,30 +379,23 @@ def render(rows):
 <td class="num">{cell(r['prohibited'])}</td>
 <td class="reason">{cell(r['reason'])}</td>
 <td class="repl">{cell(r['replacements'])}</td>
-{wip_cell}
-{hearing_cell}
+<td class="manual wip-cell" data-field="appeal_wip" data-key="{appno_js}"><span class="val"></span><input type="text" placeholder="add note…" onchange="saveField(this,'appeal_wip','{appno_js}')"></td>
+<td class="manual hearing-cell" data-field="hearing" data-key="{appno_js}"><span class="val"></span><input type="text" placeholder="add date…" onchange="saveField(this,'hearing','{appno_js}')"></td>
 </tr>""")
         if not out:
-            col_count = 12 + (1 if include_wip else 0) + (1 if include_hearing else 0)
-            out.append(f'<tr><td colspan="{col_count}" style="text-align:center;color:#888;padding:24px">No decisions in this tab.</td></tr>')
+            out.append('<tr class="placeholder-row"><td colspan="14" style="text-align:center;color:#888;padding:24px">No decisions.</td></tr>')
         return "\n".join(out)
 
-    active_rows  = build_rows(active,  include_hearing=False, include_wip=True)
-    expired_rows = build_rows(expired, include_hearing=True,  include_wip=False)
+    all_rows = build_rows(rows)
 
-    active_hdrs = """<th>Address</th><th>Date posted</th><th>Appeal by</th>
+    hdrs_common = """<th>Address</th><th>Date posted</th><th>Appeal by</th>
 <th># tree<br>removal</th><th># tree<br>relocation</th>
 <th># palm<br>removal</th><th># palm<br>relocation</th>
 <th>specimen<br>removal</th><th>specimen<br>relocation</th>
-<th>prohibited</th><th>Reason</th><th>Replacements</th>
-<th>Appeal in<br>the works</th>"""
+<th>prohibited</th><th>Reason</th><th>Replacements</th>"""
 
-    expired_hdrs = """<th>Address</th><th>Date posted</th><th>Appeal by</th>
-<th># tree<br>removal</th><th># tree<br>relocation</th>
-<th># palm<br>removal</th><th># palm<br>relocation</th>
-<th>specimen<br>removal</th><th>specimen<br>relocation</th>
-<th>prohibited</th><th>Reason</th><th>Replacements</th>
-<th>Appeal submitted –<br>date of hearing</th>"""
+    active_hdrs  = hdrs_common + "<th>Appeal in<br>the works</th>"
+    expired_hdrs = hdrs_common + "<th>Appeal submitted –<br>date of hearing</th>"
 
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -475,7 +443,7 @@ def render(rows):
 <header><h1>🌳 Miami Tree Removal Intended Decisions</h1></header>
 <div class="bar">
   <button onclick="location.reload(true)">↻ Refresh</button>
-  <span class="meta">Auto-updated {ts} UTC &nbsp;•&nbsp; {len(active)} active &nbsp;•&nbsp; {len(expired)} expired</span>
+  <span class="meta">Auto-updated {ts} UTC &nbsp;•&nbsp; {len(rows)} decisions</span>
   <span class="legend">
     <span class="lg-red">tree removal 8+</span>
     <span class="lg-org">tree removal 5–7 or relocation 7+ (w/ removals)</span>
@@ -488,16 +456,16 @@ def render(rows):
   &nbsp;|&nbsp; <a href="#" onclick="openSheet()">Open Sheet to edit</a>
 </div>
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('active',this)">Active decisions ({len(active)})</div>
-  <div class="tab" onclick="switchTab('expired',this)">Expired decisions ({len(expired)})</div>
+  <div class="tab active" onclick="switchTab('active',this)" id="tab-active">Active decisions</div>
+  <div class="tab" onclick="switchTab('expired',this)" id="tab-expired">Expired decisions</div>
 </div>
 
 <div id="pane-active" class="pane active">
 <div class="note">Appeal deadline has not yet passed. Click an address to open the original notice.
-Hover a cell in the last column to add a note. Your edits save to the shared Google Sheet instantly.</div>
+Hover a cell in the last column to add a note.</div>
 <div class="wrap"><table>
 <thead><tr>{active_hdrs}</tr></thead>
-<tbody>{active_rows}</tbody>
+<tbody id="tbody-active"></tbody>
 </table></div></div>
 
 <div id="pane-expired" class="pane">
@@ -505,8 +473,11 @@ Hover a cell in the last column to add a note. Your edits save to the shared Goo
 "Appeal submitted – date of hearing" column is for manual entry.</div>
 <div class="wrap"><table>
 <thead><tr>{expired_hdrs}</tr></thead>
-<tbody>{expired_rows}</tbody>
+<tbody id="tbody-expired"></tbody>
 </table></div></div>
+
+<!-- Hidden staging area holding all scraped rows -->
+<tbody id="tbody-all" style="display:none">{all_rows}</tbody>
 
 <script>
 // ── Tab switching ──────────────────────────────────────────────────────────
@@ -516,6 +487,42 @@ function switchTab(name, el) {{
   document.getElementById('pane-' + name).classList.add('active');
   el.classList.add('active');
 }}
+
+// ── Split rows into active / expired based on today's date ─────────────────
+function splitRows() {{
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const tbodyActive  = document.getElementById('tbody-active');
+  const tbodyExpired = document.getElementById('tbody-expired');
+  const allRows = Array.from(document.querySelectorAll('#tbody-all tr[data-appeal]'));
+  let nActive = 0, nExpired = 0;
+
+  allRows.forEach(row => {{
+    const appealStr = row.dataset.appeal;  // MM/DD/YYYY
+    let isExpired = false;
+    if (appealStr && appealStr.match(/\\d{{1,2}}\\/\\d{{1,2}}\\/\\d{{4}}/)) {{
+      const p = appealStr.split('/');
+      const appealDate = new Date(p[2], p[0]-1, p[1]);
+      isExpired = appealDate < today;
+    }}
+    const clone = row.cloneNode(true);
+    // Show/hide the right last column for each tab.
+    if (isExpired) {{
+      clone.querySelectorAll('.wip-cell').forEach(c => c.style.display='none');
+      tbodyExpired.appendChild(clone);
+      nExpired++;
+    }} else {{
+      clone.querySelectorAll('.hearing-cell').forEach(c => c.style.display='none');
+      tbodyActive.appendChild(clone);
+      nActive++;
+    }}
+  }});
+
+  document.getElementById('tab-active').textContent  = `Active decisions (${{nActive}})`;
+  document.getElementById('tab-expired').textContent = `Expired decisions (${{nExpired}})`;
+}}
+
+splitRows();
 
 // ── Google Sheet integration ───────────────────────────────────────────────
 var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRzvK7YskKFgC5dOnk8aAjqPNbKL30pCIcIj_-65khI-IUe88v6FDZpeWhnDRuYTW9Dvwf_EzHP1xzH/pub?gid=0&single=true&output=csv";
@@ -533,7 +540,7 @@ var manualRows = [];        // rows with address but no matching scraped row
 
 // All scraped appnos (so we know which Sheet rows are manual-only).
 var scrapedAppnos = new Set(
-  Array.from(document.querySelectorAll('tr[data-appno]'))
+  Array.from(document.querySelectorAll('#tbody-all tr[data-appno]'))
        .map(r => r.dataset.appno).filter(Boolean)
 );
 
@@ -586,8 +593,8 @@ function parseCSV(text) {{
       issued:     c[4] || '',
       appeal:     c[5] || '',
       trees_remove:   c[6] || '',
-      palms_remove:   c[7] || '',
-      trees_relocate: c[8] || '',
+      trees_relocate: c[7] || '',
+      palms_remove:   c[8] || '',
       palms_relocate: c[9] || '',
       spec_remove:    c[10] || '',
       spec_relocate:  c[11] || '',
@@ -604,7 +611,7 @@ function parseCSV(text) {{
 }}
 
 function applySheetData() {{
-  document.querySelectorAll('tr[data-appno]').forEach(row => {{
+  document.querySelectorAll('#tbody-active tr[data-appno], #tbody-expired tr[data-appno]').forEach(row => {{
     const d = sheetData[row.dataset.appno];
     if (!d) return;
     row.querySelectorAll('td[data-field]').forEach(cell => {{
@@ -632,16 +639,14 @@ function tierFor(tr, trl, pr, prl, specRm, specRl) {{
 // ── Inject manual-only rows into expired tbody, sorted by date ─────────────
 function injectManualRows() {{
   if (!manualRows.length) return;
-  const tbody = document.querySelector('#pane-expired table tbody');
+  const tbody = document.getElementById('tbody-expired');
   if (!tbody) return;
 
-  // Collect existing rows with their date for sorting.
   const existing = Array.from(tbody.querySelectorAll('tr[data-appno]')).map(tr => ({{
     el: tr,
     date: tr.querySelector('td:nth-child(2)')?.textContent.trim() || ''
   }}));
 
-  // Build new TR elements for manual rows.
   manualRows.forEach(d => {{
     const tier = tierFor(d.trees_remove, d.trees_relocate, d.palms_remove, d.palms_relocate, d.spec_remove, d.spec_relocate);
     const appno_esc = d.appno.replace(/'/g, "\\'");
@@ -662,7 +667,7 @@ function injectManualRows() {{
 <td class="num">${{d.prohibited || 'not stated'}}</td>
 <td class="reason">${{d.reason || '—'}}</td>
 <td class="repl">${{d.replacements || '—'}}</td>
-<td class="manual" data-field="hearing" data-key="${{appno_esc}}">
+<td class="manual hearing-cell" data-field="hearing" data-key="${{appno_esc}}">
   <span class="val">${{d.hearing}}</span>
   <input type="text" placeholder="add date…" value="${{d.hearing}}"
     onchange="saveField(this,'hearing','${{appno_esc}}')">
@@ -670,20 +675,16 @@ function injectManualRows() {{
     existing.push({{ el: tr, date: d.issued || '' }});
   }});
 
-  // Sort all rows newest-first by issued date.
   function toDate(s) {{
     if (!s) return new Date(0);
     const p = s.split('/');
     return p.length === 3 ? new Date(p[2], p[0]-1, p[1]) : new Date(0);
   }}
   existing.sort((a, b) => toDate(b.date) - toDate(a.date));
-
-  // Re-append in sorted order. Also remove the "no decisions" placeholder row.
   tbody.querySelectorAll('tr:not([data-appno])').forEach(r => r.remove());
   existing.forEach(item => tbody.appendChild(item.el));
 
-  // Update tab count label.
-  const tab = document.querySelector('.tab:nth-child(2)');
+  const tab = document.getElementById('tab-expired');
   if (tab) tab.textContent = `Expired decisions (${{existing.length}})`;
 }}
 
