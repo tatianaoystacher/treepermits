@@ -170,6 +170,23 @@
     "tier": ""
   },
   {
+    "address": "3635 JUSTISON RD",
+    "issued": "06/09/2026",
+    "appeal": "06/19/2026",
+    "appno": "BD25-027247-001",
+    "url": "https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION-3635-JUSTISON-RD",
+    "reason": "Trees/Roots in the buildable footprint",
+    "trees_remove": 44,
+    "palms_remove": 1,
+    "trees_relocate": 0,
+    "palms_relocate": 0,
+    "specimen_remove": 1,
+    "specimen_relocate": null,
+    "prohibited": null,
+    "replacements": "TWO(2) Green buttonwoods, FIVE(5) Spanish stoppers, ONE(1) Southern Magnolia, and TWO(2) Simpson stoppers to be planted inside the subject property",
+    "tier": "red"
+  },
+  {
     "address": "4141 NW 5 AV",
     "issued": "06/02/2026",
     "appeal": "06/12/2026",
