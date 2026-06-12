@@ -85,6 +85,23 @@
     "tier": "orange"
   },
   {
+    "address": "131 NW 75 ST",
+    "issued": "06/16/2026",
+    "appeal": "06/26/2026",
+    "appno": "BD25-008474-001",
+    "url": "https://www.miami.gov/My-Government/Departments/Building/View-Intended-Decisions-Posted-for-Tree-Permitting/INTENDED-DECISION131-NW-75-ST",
+    "reason": "Located in the buildable footprint",
+    "trees_remove": 23,
+    "palms_remove": 0,
+    "trees_relocate": 0,
+    "palms_relocate": 5,
+    "specimen_remove": 3,
+    "specimen_relocate": null,
+    "prohibited": null,
+    "replacements": "TWENTY-TWO (22) HARDWOOD TREES. To be planted within the lot. ONE(1) HARDWOOD TREE. To be planted within the right of way. TREE TRUST FUND CONTRIBUTION",
+    "tier": "red"
+  },
+  {
     "address": "1944 SW 16 TER",
     "issued": "06/09/2026",
     "appeal": "06/19/2026",
